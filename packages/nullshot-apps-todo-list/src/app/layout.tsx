@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Build anything from a chat",
-  description: "Turn chats into apps. Prompt. Ship. Repeat.",
+  title: "Nullshot Apps Prompts Catalog",
+  description: "Ready-made prompts and checklists for vibe coders. Build 50+ mini-apps with Nullshot.",
 };
 
 export default function RootLayout({
@@ -32,3 +32,4 @@ export default function RootLayout({
     </html>
   );
 }
+

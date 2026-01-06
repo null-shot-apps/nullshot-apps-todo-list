@@ -1,84 +1,104 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-const slogans = [
-  "Turn chats into apps",
-  "Prompt. Ship. Repeat.",
-  "Build anything from a chat",
-  "Ideas → Apps, instantly",
-  "From zero to MVP in minutes",
-  "Your cofounder in the command line",
-  "Draft, iterate, deploy",
-  "Ship faster than you can type",
-  "Design in text, deliver in code",
-  "Dream it. Prompt it. Run it.",
-  "Chat-native app building",
-  "From prompt to product",
-  "One prompt, infinite apps",
-  "Stop scaffolding. Start shipping.",
-  "Prototype at the speed of thought",
-  "Make conversations executable"
+const apps = [
+  { name: 'Notebook', slug: 'notebook', category: 'Productivity' },
+  { name: 'Task Tracker', slug: 'task-tracker', category: 'Productivity' },
+  { name: 'Habit Tracker', slug: 'habit-tracker', category: 'Productivity' },
+  { name: 'Pomodoro Timer', slug: 'pomodoro-timer', category: 'Productivity' },
+  { name: 'Kanban Board', slug: 'kanban-board', category: 'Productivity' },
+  { name: 'Weekly Meal Planner', slug: 'weekly-meal-planner', category: 'Lifestyle' },
+  { name: 'Budget Envelope System', slug: 'budget-envelope-system', category: 'Finance' },
+  { name: 'Reading List', slug: 'reading-list', category: 'Lifestyle' },
+  { name: 'Project Time Logger', slug: 'project-time-logger', category: 'Productivity' },
+  { name: 'Decision Matrix Tool', slug: 'decision-matrix-tool', category: 'Productivity' },
+  { name: 'QR Code Generator', slug: 'qr-code-generator', category: 'Utilities' },
+  { name: 'Color Palette Generator', slug: 'color-palette-generator', category: 'Design' },
+  { name: 'Invoice/Receipt Maker', slug: 'invoice-receipt-maker', category: 'Finance' },
+  { name: 'Placeholder Image Generator', slug: 'placeholder-image-generator', category: 'Design' },
+  { name: 'JSON/CSV Converter', slug: 'json-csv-converter', category: 'Developer' },
+  { name: 'Regex Tester', slug: 'regex-tester', category: 'Developer' },
+  { name: 'Lorem Ipsum Generator', slug: 'lorem-ipsum-generator', category: 'Design' },
+  { name: 'Unit Converter', slug: 'unit-converter', category: 'Utilities' },
+  { name: 'Aspect Ratio Calculator', slug: 'aspect-ratio-calculator', category: 'Design' },
+  { name: 'Flashcard App', slug: 'flashcard-app', category: 'Education' },
+  { name: 'Typing Speed Test', slug: 'typing-speed-test', category: 'Education' },
+  { name: 'Mental Math Trainer', slug: 'mental-math-trainer', category: 'Education' },
+  { name: 'Language Vocabulary Builder', slug: 'language-vocabulary-builder', category: 'Education' },
+  { name: 'Periodic Table Explorer', slug: 'periodic-table-explorer', category: 'Education' },
+  { name: 'Music Interval Trainer', slug: 'music-interval-trainer', category: 'Education' },
+  { name: 'Geography Quiz', slug: 'geography-quiz', category: 'Education' },
+  { name: 'Code Snippet Library', slug: 'code-snippet-library', category: 'Developer' },
+  { name: 'Water Intake Tracker', slug: 'water-intake-tracker', category: 'Health' },
+  { name: 'Stretch/Exercise Timer', slug: 'stretch-exercise-timer', category: 'Health' },
+  { name: 'Sleep Log', slug: 'sleep-log', category: 'Health' },
+  { name: 'Breathing Exercise Guide', slug: 'breathing-exercise-guide', category: 'Health' },
+  { name: 'Symptom Diary', slug: 'symptom-diary', category: 'Health' },
+  { name: 'Pixel Art Editor', slug: 'pixel-art-editor', category: 'Creative' },
+  { name: 'Soundboard', slug: 'soundboard', category: 'Creative' },
+  { name: 'Random Name/Team Generator', slug: 'random-name-team-generator', category: 'Utilities' },
+  { name: 'Countdown Creator', slug: 'countdown-creator', category: 'Utilities' },
+  { name: 'Meme Generator', slug: 'meme-generator', category: 'Creative' },
+  { name: 'ASCII Art Converter', slug: 'ascii-art-converter', category: 'Creative' },
+  { name: 'Drum Machine', slug: 'drum-machine', category: 'Creative' },
+  { name: 'Story Prompt Generator', slug: 'story-prompt-generator', category: 'Creative' },
+  { name: 'Personal CRM', slug: 'personal-crm', category: 'Lifestyle' },
+  { name: 'Workout Log', slug: 'workout-log', category: 'Health' },
+  { name: 'Plant Care Tracker', slug: 'plant-care-tracker', category: 'Lifestyle' },
+  { name: 'Collection Catalog', slug: 'collection-catalog', category: 'Lifestyle' },
+  { name: 'Survey/Poll Creator', slug: 'survey-poll-creator', category: 'Utilities' },
+  { name: 'Communication Board', slug: 'communication-board', category: 'Accessibility' },
+  { name: 'Visual Schedule', slug: 'visual-schedule', category: 'Accessibility' },
+  { name: 'Large-Button Emergency Dialer', slug: 'large-button-emergency-dialer', category: 'Accessibility' },
+  { name: 'High-Contrast Clock', slug: 'high-contrast-clock', category: 'Accessibility' },
+  { name: 'Text-to-Speech Reader', slug: 'text-to-speech-reader', category: 'Accessibility' },
 ];
 
-export default function Landing() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+const categories = Array.from(new Set(apps.map(app => app.category))).sort();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % slogans.length);
-        setIsVisible(true);
-      }, 400);
-    }, 2800);
-
-    return () => clearInterval(interval);
-  }, []);
-
+export default function Home() {
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-black text-white">
-      {/* Enhanced animated aurora background layers */}
-      <div className="absolute inset-0 bg-aurora-layer-1" />
-      <div className="absolute inset-0 bg-aurora-layer-2" />
-      <div className="absolute inset-0 bg-aurora-layer-3" />
-      
-      {/* Floating particles overlay */}
-      <div className="absolute inset-0 bg-particles" />
-      
-      {/* Main content - centered */}
-      <main className="relative z-10 h-full flex flex-col items-center justify-center px-6">
-        <h1 className="text-center text-[clamp(28px,6vw,64px)] font-medium tracking-tight mb-4">
-          Turn Chats into Apps
-        </h1>
-        
-        {/* Rotating slogans */}
-        <div className="mt-4 h-8 md:h-10 overflow-hidden flex items-center justify-center">
-          <span
-            className={`inline-block text-center text-[clamp(18px,3vw,32px)] font-light transition-all duration-[400ms] ease-in-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
-            }`}
-          >
-            {slogans[currentIndex]}
-          </span>
-        </div>
-      </main>
-      
-      {/* Start Prompting arrow pointing left - bottom left */}
-      <div className="absolute left-6 md:left-8 bottom-[5%] z-20 flex items-center gap-3 arrow-point-left">
-        <div className="flex items-center gap-2 text-white/80 font-medium text-sm md:text-base">
-          <svg 
-            className="w-5 h-5 md:w-6 md:h-6 animate-bounce-horizontal" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span>Start prompting</span>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <header className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
+            Nullshot Apps Prompts Catalog
+          </h1>
+          <p className="text-xl text-purple-200 max-w-2xl mx-auto">
+            Ready-made prompts and checklists for vibe coders. Pick an app, copy the prompt, and build with Nullshot.
+          </p>
+        </header>
+
+        {/* Categories */}
+        {categories.map(category => (
+          <section key={category} className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-6 border-b border-purple-500/30 pb-2">
+              {category}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {apps
+                .filter(app => app.category === category)
+                .map(app => (
+                  <Link
+                    key={app.slug}
+                    href={`/app/${app.slug}`}
+                    className="group bg-white/10 backdrop-blur-sm rounded-lg p-6 hover:bg-white/20 transition-all duration-200 border border-purple-500/20 hover:border-purple-400/50"
+                  >
+                    <h3 className="text-xl font-semibold text-white group-hover:text-purple-300 transition-colors">
+                      {app.name}
+                    </h3>
+                    <p className="text-purple-200/70 text-sm mt-2">
+                      View prompt & checklist →
+                    </p>
+                  </Link>
+                ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   );
 }
+
