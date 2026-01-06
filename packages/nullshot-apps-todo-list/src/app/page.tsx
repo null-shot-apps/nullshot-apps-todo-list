@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { getAllProgress, type AppProgress } from '@/lib/store';
 
 const apps = [
   { name: 'Notebook', slug: 'notebook', category: 'Productivity' },
@@ -58,6 +60,25 @@ const apps = [
 const categories = Array.from(new Set(apps.map(app => app.category))).sort();
 
 export default function Home() {
+  const [progress, setProgress] = useState<Record<string, AppProgress>>({});
+
+  useEffect(() => {
+    // Load initial progress
+    setProgress(getAllProgress());
+
+    // Listen for progress updates
+    const handleUpdate = () => {
+      setProgress(getAllProgress());
+    };
+
+    window.addEventListener('app-progress-updated', handleUpdate);
+    return () => window.removeEventListener('app-progress-updated', handleUpdate);
+  }, []);
+
+  const inProgressApps = apps.filter(app => progress[app.slug]?.status === 'in-progress');
+  const doneApps = apps.filter(app => progress[app.slug]?.status === 'done');
+  const notStartedApps = apps.filter(app => !progress[app.slug] || progress[app.slug]?.status === 'not-started');
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -71,6 +92,66 @@ export default function Home() {
           </p>
         </header>
 
+        {/* In Progress Section */}
+        {inProgressApps.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-yellow-400 mb-6 border-b border-yellow-500/30 pb-2">
+              🚧 In Progress
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {inProgressApps.map(app => (
+                <Link
+                  key={app.slug}
+                  href={`/app/${app.slug}`}
+                  className="group bg-yellow-500/10 backdrop-blur-sm rounded-lg p-6 hover:bg-yellow-500/20 transition-all duration-200 border border-yellow-500/30 hover:border-yellow-400/50"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-xl font-semibold text-white group-hover:text-yellow-300 transition-colors">
+                      {app.name}
+                    </h3>
+                    <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-1 rounded">
+                      {app.category}
+                    </span>
+                  </div>
+                  <p className="text-yellow-200/70 text-sm mt-2">
+                    Continue building →
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Done Section */}
+        {doneApps.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-3xl font-bold text-green-400 mb-6 border-b border-green-500/30 pb-2">
+              ✅ Done
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {doneApps.map(app => (
+                <Link
+                  key={app.slug}
+                  href={`/app/${app.slug}`}
+                  className="group bg-green-500/10 backdrop-blur-sm rounded-lg p-6 hover:bg-green-500/20 transition-all duration-200 border border-green-500/30 hover:border-green-400/50"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-xl font-semibold text-white group-hover:text-green-300 transition-colors">
+                      {app.name}
+                    </h3>
+                    <span className="text-xs bg-green-500/20 text-green-300 px-2 py-1 rounded">
+                      {app.category}
+                    </span>
+                  </div>
+                  <p className="text-green-200/70 text-sm mt-2">
+                    View completed →
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* Categories */}
         {categories.map(category => (
           <section key={category} className="mb-12">
@@ -78,7 +159,7 @@ export default function Home() {
               {category}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {apps
+              {notStartedApps
                 .filter(app => app.category === category)
                 .map(app => (
                   <Link
@@ -101,4 +182,6 @@ export default function Home() {
     </div>
   );
 }
+
+
 
